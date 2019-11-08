@@ -1,0 +1,8 @@
+# Dependency directories
+node_modules/
+
+# Test coverage
+coverage/
+
+# nyc
+.nyc_output/

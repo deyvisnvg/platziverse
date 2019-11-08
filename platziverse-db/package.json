@@ -1,0 +1,32 @@
+{
+  "name": "platziverse-db",
+  "version": "1.0.0",
+  "description": "A Simple IoT Platform - DB Module",
+  "main": "index.js",
+  "scripts": {
+    "test-metric": "set DEBUG=platziverse:* && ava tests/metric-tests.js --verbose",
+    "test": "set DEBUG=platziverse:* && nyc --reporter=lcov ava tests/agent-tests.js --verbose",
+    "setup": "set DEBUG=platziverse:* && node setup.js",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
+  },
+  "author": "Deyvis Neyser V. G.",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "nyc": "^14.1.1",
+    "proxyquire": "^2.1.3",
+    "sinon": "^7.5.0",
+    "sqlite3": "^4.1.0",
+    "standard": "^14.3.1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "debug": "^4.1.1",
+    "defaults": "^1.0.3",
+    "inquirer": "^7.0.0",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.19.7"
+  }
+}
