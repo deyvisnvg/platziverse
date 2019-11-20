@@ -12,7 +12,7 @@ module.exports = function setupMetric (MetricModel, AgentModel) {
   async function findByAgentUuid (uuid) {
     return MetricModel.findAll({
       attributes: ['type'], // Para seleccionar ese atributo específico que quiero retornar
-      group: ['type'], // Lo agrupamos por type
+      // group: ['type'], // Lo agrupamos por type
       include: [{ // Con include hacemos los join o la relación con la tabla
         atrributes: [],
         model: AgentModel, // La tabla o modelo con quien voya a relacionarlo o hacer el join
@@ -20,16 +20,14 @@ module.exports = function setupMetric (MetricModel, AgentModel) {
           uuid
         }
       }],
-      query: {
-        raw: true // Que los query sean de tipo row es decir que me devuelvan objetos simples, la información en JSON()
-      }
+      raw: true // Que los query sean de tipo row es decir que me devuelvan objetos simples, la información en JSON()
     })
   }
 
   async function findByTypeAgentUuid (type, uuid) {
     return MetricModel.findAll({
       atrributes: ['id', 'type', 'value', 'createdAt'],
-      group: ['type'],
+      // group: ['type'],
       where: { // filtro de búsqueda
         type
       },
@@ -42,9 +40,7 @@ module.exports = function setupMetric (MetricModel, AgentModel) {
           uuid
         }
       }],
-      query: {
-        raw: true
-      }
+      raw: true
     })
   }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "test-metric": "set DEBUG=platziverse:* && ava tests/metric-tests.js --verbose",
     "test": "set DEBUG=platziverse:* && nyc --reporter=lcov ava tests/agent-tests.js --verbose",
-    "setup": "set DEBUG=platziverse:* && node setup.js",
+    "setup": "set DEBUG=platziverse:* && node setup.js --yes -y",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
@@ -27,6 +27,7 @@
     "inquirer": "^7.0.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.19.7"
+    "sequelize": "^5.19.7",
+    "platziverse-utils": "file:../platziverse-utils"
   }
 }

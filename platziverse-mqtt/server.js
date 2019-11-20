@@ -5,6 +5,8 @@ const mosca = require('mosca')
 // const redis = require('redis')
 const mongo = require('mongoose')
 const chalk = require('chalk')
+const db = require('platziverse-db')
+const { configuration } = require('platziverse-utils')
 
 // const backend = {
 //   type: 'redis',
@@ -24,7 +26,11 @@ const settings = {
   backend
 }
 
+const config = configuration(false) // El setup es falso //Revisar el módulo platziverse-utils
+
 const server = new mosca.Server(settings)
+
+let Agent, Metric
 
 server.on('clientConnected', client => {
   debug(`Client Connected: ${client.id}`)
@@ -39,18 +45,31 @@ server.on('published', (packet, client) => {
   debug(`Payload: ${packet.payload}`) // Esa informacion que va ser enviada va ha venir en el payload
 })
 
-server.on('error', handleFatalError)
+server.on('ready', async () => {
 
-function handleFatalError (err) {
-  console.error(`${chalk.red('[fatal error]')} ${err.message}`)
-  console.error(err.stack)
-  process.exit(1)
-}
+  const services = await db(config).catch(handleFatalError) // Cuando el servidor esta listo yo instancio mi Base de Datos
+
+  Agent = services.Agent
+  Metric = services.Metric
+  
+  console.log(`${chalk.green('[platziverse-mqtt]')} server is running`)
+  // console.log("Activo")
+})
+
+server.on('error', handleFatalError)
 
 process.on('uncaughtException', handleFatalError)
 process.on('unhandledRejection', handleFatalError)
 
-server.on('ready', () => {
-  console.log(`${chalk.green('[platziverse-mqtt]')} server is running`)
-  // console.log("Activo")
-})
+function handleFatalError (err) {
+  console.error(`${chalk.red('[fatal error]')} ${err.message}`) // Imprimimos el mensaje de error
+  console.error(err.stack) // Imprimimos el tipo de error que esta ocurriendo
+  process.exit(1) // Matamos el proceso retornando un código 1, que es un código de error
+}
+
+
+/*
+OJO: 
+Referenciamos a platziverse-db desde el package.json para poder requerirlo desde aquí.
+
+*/
